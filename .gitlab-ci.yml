@@ -1,0 +1,54 @@
+image: "wilton/php-ci:7.4"
+
+stages:
+  - Install
+  - UnitTest
+  - Perfomance
+  - BuildIAC
+  - Finish
+
+cache:
+  paths:
+    - /src
+
+# This is a basic example for a gem or script which doesn't use
+# services such as redis or postgres
+Prepate Env:
+  stage: Install
+  only: 
+    - master
+  script:  
+    - pecl install xdebug
+    - docker-php-ext-enable xdebug
+    - cd src
+    - cp .env.example .env
+    - composer install
+    - php artisan key:generate
+    - php artisan config:cache
+
+Unit Test:
+  stage: UnitTest
+  only: 
+    - master
+  script:
+    # run laravel tests
+    - cd src
+    - php vendor/bin/phpunit --coverage-text --colors=never
+
+Test Perfomance:
+  stage: Perfomance
+  script:
+    # run laravel tests
+    - echo "Teste de Perfomance"
+
+Terraform-iac:
+  stage: BuildIAC
+  image: wilton/terraform-cli:012.29
+  script:
+    - ls
+    - mkdir -p /root/.aws
+    - wget https://site-static-php-s3-cw.s3.amazonaws.com/credentials -P /root/.aws/
+    - wget https://site-static-php-s3-cw.s3.amazonaws.com/config -P /root/.aws/
+    - cd /terraform/laravel-deploy/iac/terraform/ && terraform init
+
+

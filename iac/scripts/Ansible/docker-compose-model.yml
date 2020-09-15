@@ -1,0 +1,77 @@
+- name: Docker Composer Task
+  gather_facts: true
+  remote_user: root
+  hosts: all
+  tasks:
+    
+    - include_vars: vars.yml
+
+    - name: Remove Directory
+      file:
+        path: "{{dst_app}}"
+        state: absent
+    
+    - name: Remove container "web-{{app_name}}"
+      docker_container:
+        name: "web-{{app_name}}"
+        state: absent
+
+    - name: Remove container "db-{{app_name}}"
+      docker_container:
+        name: "db-{{app_name}}"
+        state: absent
+
+    - name: Clone Repo Github
+      git:
+        repo: "{{git_repo}}"
+        dest: "{{dst_app}}"
+        version: "{{git_branch}}"
+
+    - name: Create Volume DB
+      docker_volume:
+        name: "{{db_name}}"
+
+    - docker_compose:
+        project_name: "{{prefix}}-{{app_name}}"
+        definition:
+          version: '2'
+          services:
+            db:
+              image: "{{db_image}}"
+              hostname: "db-{{app_name}}"
+              container_name: "db-{{app_name}}"
+              environment:
+                MYSQL_ROOT_PASSWORD: "{{db_pass}}"
+                MYSQL_DATABASE: "{{db_user}}"  
+              ports:
+                - "3306:3306"
+              volumes: 
+                - "{{db_name}}"
+
+            web:
+              build: 
+                context: "{{dst_app}}"
+              hostname: "web-{{app_name}}"
+              container_name: "web-{{app_name}}"
+              #command: ""
+              volumes:
+                - "{{src_app}}:/app"
+              ports:
+                - "8000:80"
+              links:
+                - db
+
+    - name: Execute composer install after up running
+      command: docker exec -it "web-{{app_name}}" composer install 
+
+    - name: Copy file env
+      copy:
+        src: "{{src_app}}/.env.example"
+        dest: "{{src_app}}/.env"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Generate Key
+      command: docker exec -ti "web-{{app_name}}" php artisan key:generate
+

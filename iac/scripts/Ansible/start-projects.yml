@@ -1,0 +1,20 @@
+- name: Start Project Docker
+  gather_facts: true
+  remote_user: root
+  hosts: all
+
+  tasks:
+    - name: Clone Repo Github
+      git:
+        repo: "{{git_repo}}"
+        dest: "{{dst_app}}"
+        version: "{{git_branch}}"
+    
+    - name: Create Docker Network
+      docker_network:
+        name: "{{docker_network}}"
+
+    - name: Start Project ENV_PROJECT docker-compose.yml
+      docker_compose:
+        project_src: "{{src_app}}"
+

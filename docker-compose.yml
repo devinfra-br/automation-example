@@ -1,0 +1,25 @@
+version: '3.3'
+services:
+  laravel-web:
+    container_name: docker-laravel
+    build:
+      context: ./
+      dockerfile: Dockerfile 
+    volumes:
+      - ./src:/app
+    #restart: unless-stopped
+    networks:
+      - frontend
+    ports:
+      - "80:80"
+
+
+networks:
+  frontend:
+    external: true
+
+
+
+
+
+

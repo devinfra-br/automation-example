@@ -1,0 +1,32 @@
+name: World
+project: IAC_Curse
+remote_user: ubuntu
+docker_group: docker
+botocore_version: "1.17.52"
+awscli_version: "1.18.129"
+hosts_01: "192.168.10.102"
+
+
+# App Configs
+app_name: demo
+
+git_repo: https://gitlab.com/devinfra/laravel-deploy.git
+git_branch: master
+
+docker_network: demo
+docker_data: demo
+
+dst_app: /srv/demo
+src_app: /srv/demo/src
+mount_volume: demo
+
+prefix: proj
+
+
+
+# Databases name
+db_image: mysql:5.7
+db_name: demo
+db_user: demo
+db_base: demo
+db_pass: 123456

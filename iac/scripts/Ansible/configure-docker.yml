@@ -1,0 +1,92 @@
+- name: Playbook Configurar Docker no Ubuntu Server
+  gather_facts: true
+  remote_user: root
+  hosts: all
+
+  tasks:
+    - include_vars: vars.yml
+      
+    - name: Update Packages
+      become: true
+      apt:
+        update_cache: yes
+        upgrade: 'yes'
+
+    - name: Install Git
+      apt:
+        name: git
+        state: present      
+
+    - name: Install Required System Packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'libuv1-dev', 'zlib1g-dev', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools', 'gcc', 'make', 'autoconf', 'autoconf-archive', 'autogen', 'automake', 'netcat', 'nodejs', 'libuv1-dev', 'zlib1g-dev']
+
+    - name: Installing python dependencies - Botocore Version "{{botocore_version}}"
+      pip:  
+        name: "botocore"
+        version: "{{botocore_version}}"
+
+
+    - name: Installing - AWS CLI version "{{awscli_version}}"
+      pip:
+        name: "awscli"
+        version: "{{awscli_version}}"
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Ensure docker registry is available
+      apt_repository: repo='deb https://download.docker.com/linux/ubuntu bionic stable' state=present
+
+    - name: ensure docker and dependencies are installed
+      apt: name=docker-ce update_cache=yes
+
+    # sudo groupadd docker
+    - name: Create "docker" group
+      group:
+        name: "{{ docker_group }}"
+        state: present
+      tags:
+        - docker
+
+    - name: Add remote user "ubuntu" user to "docker" group
+      user:
+        name: "{{ remote_user }}"
+        group: "{{ docker_group }}"
+        append: yes
+      tags:
+        - docker
+
+    - name: Install docker-compose
+      apt:
+        name: docker-compose
+        state: present
+        update_cache: yes
+      tags:
+        - docker
+        
+    - name: Create .aws directory in the home directory
+      file:
+        path: "/root/.aws/"
+        state: directory
+        owner: "root"
+        group: "root"
+        mode: 0755
+
+    #- service: name=docker state=restarted             
+    - name: Download NetData
+      get_url:
+        url: https://my-netdata.io/kickstart.sh 
+        dest: /srv/kickstart.sh
+        mode: '0777'
+
+    - name: Install Netdata
+      command: sh /srv/kickstart.sh --dont-wait --libs-are-really-here
+
+  handlers:
+    - name: to restart netdata services
+      service:
+        name: netdata
+        state: restarted         
