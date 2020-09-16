@@ -1,11 +1,11 @@
 pipeline {
-    agent { label 'Docker' }  
+    agent { label 'master' }  
 
     stages {
         stage('Teste_PP') {
              agent {
                 docker {
-                  label 'Docker'  // both label and image
+                  label 'master'  // both label and image
                   image 'wilton/php-ci:7.4'
                 }
             }
