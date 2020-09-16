@@ -12,9 +12,12 @@ pipeline {
           }
           // Commands Execute
           steps {
+                echo 'Rename Env file'
                 sh 'cp src/.env.example src/.env'
+                echo 'Composer'
                 sh 'composer install --working-dir=src'
-                sh 'src/vendor/bin/phpunit src/.'
+                echo 'PHPUnit'
+                sh 'src/vendor/bin/phpunit src/Tests'
             }
         }
 
