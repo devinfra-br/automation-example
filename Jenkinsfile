@@ -6,7 +6,7 @@ pipeline {
           agent { 
             docker {
               label 'master'  // both label and image
-              image 'wilton/php-ci:7.4'
+              image 'wilton/php74-ci:v1'
             }  
           }
           // Commands Execute
