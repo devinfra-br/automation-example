@@ -12,8 +12,7 @@ pipeline {
           }
           // Commands Execute
           steps {
-                sh 'sh iac/scripts/git-crypt.sh'
-                sh 'git-crypt unlock'
+                sh 'mv src/.env.example src/.env
                 sh 'composer install --working-dir=src'
                 sh 'cat .env'
             }
