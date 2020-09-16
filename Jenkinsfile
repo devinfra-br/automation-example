@@ -11,8 +11,8 @@ pipeline {
           }
           // Commands Execute
           steps {
-                sh 'apk update && apk add git-crypt'
-                sh 'git-crypt unlock -k CF5D531E52DC98269C6B32AEBFDBC02BC279AD31'
+                sh 'gpg --import-ownertrust iac/key/git-crypt.txt'
+                sh 'git-crypt unlock'
                 sh 'composer install --working-dir=src'
                 sh 'cat .env'
             }
