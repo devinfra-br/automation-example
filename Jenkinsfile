@@ -1,8 +1,5 @@
 pipeline {
     agent none
-    parameters {
-        string(key: 'CF5D531E52DC98269C6B32AEBFDBC02BC279AD31')
-    }   
     stages {
         stage('Composer install') {
          // Image Docker   
@@ -15,7 +12,7 @@ pipeline {
           // Commands Execute
           steps {
                 sh 'apk update && apk add git-crypt'
-                sh 'git-crypt unlock -k  ${params.key}'
+                sh 'git-crypt unlock -k CF5D531E52DC98269C6B32AEBFDBC02BC279AD31'
                 sh 'composer install --working-dir=src'
                 sh 'cat .env'
             }
