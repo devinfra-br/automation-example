@@ -9,6 +9,7 @@ pipeline {
        }   } 
             steps {
                 sh 'cd src'
+                sh 'ls -lsa'
                 sh 'composer install'
                 sh 'cat .env'
             }
