@@ -1,7 +1,7 @@
 pipeline {
     agent none
     stages {
-        stage('Composer install') {
+        stage('Application Testes') {
          // Image Docker   
           agent { 
             docker {
@@ -20,7 +20,18 @@ pipeline {
                 sh 'src/vendor/bin/phpunit src/tests/'
             }
         }
-
+        stage('Teste Input') {
+            input {
+                message "Should we continue?"
+                ok "Yes, we should."
+                submitter "alice,bob"
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+                }
+            }
+            steps {
+                echo "Hello, ${PERSON}, nice to meet you."
+            }
         // New Stage
         stage('Test') {
             steps {
@@ -32,5 +43,10 @@ pipeline {
                 echo 'Deploying....'
             }
         }
+    }
+    post { 
+      always { 
+        echo 'Testes Post Pipeline'
+      }
     }
 }
