@@ -12,7 +12,7 @@ pipeline {
           }
           // Commands Execute
           steps {
-                //sh 'gpg --import-ownertrust iac/key/git-crypt.txt'
+                sh 'gpg --import .git-crypt/keys/default/0/D25E4720FD715AF3D403851234EA471894CE3DD4.gpg'
                 sh 'git-crypt unlock'
                 sh 'composer install --working-dir=src'
                 sh 'cat .env'
