@@ -7,11 +7,10 @@ pipeline {
     }
     stages {
         stage('Teste_PP') {
-             
-            
             steps {
-                sh 'ls -lsa'
-                sh 'printenv'
+                sh 'cd src'
+                sh 'composer install'
+                sh 'cat .env'
             }
         }
         stage('Test') {
