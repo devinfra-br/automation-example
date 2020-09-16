@@ -1,26 +1,16 @@
+#!groovy
 pipeline {
-    agent {   
-     docker {
-        image 'wilton/php-ci:7.4'
-        label 'pipeline'
-        }
-    }
-
-    stages {
-        stage('Teste_PP') {
-            steps {
-                sh 'ls -lsa'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
-    }
-}
+    agent none
+   stages {     
+    stage('Maven Install') {
+      agent {         
+       docker {          
+         image 'maven:3.5.0'         
+     }       
+  }       
+  steps {
+       sh 'mvn clean install'
+       }
+     }
+   }
+ }

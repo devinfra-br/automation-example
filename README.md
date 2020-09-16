@@ -1,4 +1,4 @@
-## Projeto Laravel CI/CD DevInfra
+# Projeto Laravel CI/CD DevInfra
 
 This is a demo project for Infrastructure automation
 
