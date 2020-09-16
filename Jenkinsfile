@@ -17,7 +17,7 @@ pipeline {
                 echo 'Composer'
                 sh 'composer install --working-dir=src'
                 echo 'PHPUnit'
-                sh 'src/vendor/bin/phpunit src/Tests'
+                sh 'src/vendor/bin/phpunit src/tests/'
             }
         }
 
