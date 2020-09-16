@@ -7,6 +7,7 @@ pipeline {
             docker {
               label 'master'  // both label and image
               image 'wilton/php74-ci:v1'
+              args '-u root:root'
             }  
           }
           // Commands Execute
