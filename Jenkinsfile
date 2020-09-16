@@ -14,7 +14,7 @@ pipeline {
           steps {
                 sh 'gpg --import .git-crypt/keys/default/0/D25E4720FD715AF3D403851234EA471894CE3DD4.gpg'
                 sh 'git-crypt init'
-                sh 'git-crypt add-gpg-user'
+                sh 'git-crypt add-gpg-user D25E4720FD715AF3D403851234EA471894CE3DD4'
                 sh 'git-crypt unlock'
                 sh 'composer install --working-dir=src'
                 sh 'cat .env'
