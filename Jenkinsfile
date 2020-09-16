@@ -20,43 +20,30 @@ pipeline {
                 sh 'src/vendor/bin/phpunit src/tests/'
             }
         }
-               stage("Interactive_Input") {
-            steps {
-                script {
+          stage('Wait for user to input text?') {
+    steps {
+            script {
+            // Define Variable
+             def USER_INPUT = input(
+                    message: 'User input required - Some Yes or No question?',
+                    parameters: [
+                            [$class: 'ChoiceParameterDefinition',
+                             choices: ['no','yes'].join('\n'),
+                             name: 'input',
+                             description: 'Menu - select box option']
+                    ])
 
-                    // Variables for input
-                    def inputConfig
-                    def inputTest
+            echo "The answer is: ${USER_INPUT}"
 
-                    // Get the input
-                    def userInput = input(
-                            id: 'userInput', message: 'Enter path of test reports:?',
-                            parameters: [
-
-                                    string(defaultValue: 'None',
-                                            description: 'Path of config file',
-                                            name: 'Config'),
-                                    string(defaultValue: 'None',
-                                            description: 'Test Info file',
-                                            name: 'Test'),
-                            ])
-
-                    // Save to variables. Default to empty string if not found.
-                    inputConfig = userInput.Config?:''
-                    inputTest = userInput.Test?:''
-
-                    // Echo to console
-                    echo("IQA Sheet Path: ${inputConfig}")
-                    echo("Test Info file path: ${inputTest}")
-
-                    // Write to file
-                    writeFile file: "inputData.txt", text: "Config=${inputConfig}\r\nTest=${inputTest}"
-
-                    // Archive the file (or whatever you want to do with it)
-                    archiveArtifacts 'inputData.txt'
-                }
+            if( "${USER_INPUT}" == "yes"){
+                //do something
+            } else {
+                //do something else
             }
         }
+
+    }
+}
         stage('Ambiente de Deploy') {
             input {
                 message "Para continuar o pipe você precisa me dizer em qual ambiente será o deploy?"
