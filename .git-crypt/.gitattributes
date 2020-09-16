@@ -2,5 +2,5 @@
 # .gitattributes file in the directory where your files are.
 * !filter !diff
 *.gpg binary
-*.env
-src/.env
+*.env filter=git-crypt diff=git-crypt
+src/.env filter=git-crypt diff=git-crypt
