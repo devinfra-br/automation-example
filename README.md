@@ -1,18 +1,18 @@
 ## Projeto Laravel CI/CD DevInfra
 
-Este é um projeto de demonstração para Deploy com GitLab
+This is a demo project for Infrastructure automation
 
 
-## Configuração de Acesso SSH
+## Generate Auto SSH Login
 Generate Keys access server secure.
 
-Server 1
+**Server 1**
 192.168.10.103
 
-Server 2
+**Server 2**
 192.168.10.104
 
-Jenkins
+**Jenkins**
 http://192.168.10.104:8080/
 
 
