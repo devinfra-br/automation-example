@@ -11,6 +11,7 @@ pipeline {
             
             steps {
                 sh 'ls -lsa'
+                sh 'printenv'
             }
         }
         stage('Test') {
