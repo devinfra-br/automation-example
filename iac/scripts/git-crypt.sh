@@ -12,7 +12,7 @@ function verify_gpg_passphrase() {
   echo "Enter the passphrase that will be used to decrypt all in-repo gpg encrypted files, including submodule repos."
   echo "Enter passphrase:"
   read -s passphrase
-  [ -z "$passphrase" ] && abort "Empty passphrase"
+
 
   # Try to encrypt a test file at repo top level with the passphrase, if not successful, exit
   userids=$(gpg --list-keys | grep pub | grep -oE "/(\w+) " | tr '/' ' ')
