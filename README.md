@@ -13,10 +13,38 @@ Server 2
 192.168.10.104
 
 Jenkins
-http://192.168.10.104:8080/login?from=%2F
-Key: 82438cd76d074b7391aeda80625a2a2d
+http://192.168.10.104:8080/
 
 
 
 # install Jenkins Server
+
+
+
+## Install Git Crypt
+
+```ssh
+apt install git-crypt
+apt install gpg
+```
+
+### Generate Keys
+
+`gpg --gen-key`
+
+
+### List Keys GPG
+
+`gpg --list-keys`
+
+
+# Add user to the git-crypt repo
+```
+git-crypt init
+git-crypt add-gpg-user CF5D531E52DC98269C6B32AEBFDBC02BC279AD31
+git-crypt lock -k CF5D531E52DC98269C6B32AEBFDBC02BC279AD31
+git-crypt status | grep -i .env
+git-crypt unlock -k CF5D531E52DC98269C6B32AEBFDBC02BC279AD31
+```
+
 
