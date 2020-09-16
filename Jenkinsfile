@@ -4,7 +4,7 @@ pipeline {
          label 'master'  // both label and image
           image 'wilton/php-ci:7.4'
        }  
-
+    }
     stages {
         stage('Teste_PP') {
              
