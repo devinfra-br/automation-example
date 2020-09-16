@@ -14,7 +14,7 @@ pipeline {
           steps {
                 sh 'cp src/.env.example src/.env'
                 sh 'composer install --working-dir=src'
-                sh 'phpunit src/.'
+                sh 'src/vendor/bin/phpunit src/.'
             }
         }
 
