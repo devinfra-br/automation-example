@@ -11,7 +11,7 @@ pipeline {
             }  
           }
           environment { 
-            GIT-GRYPT-KEY = 'CF5D531E52DC98269C6B32AEBFDBC02BC279AD31' 
+            GIT-GRYPT-KEY="CF5D531E52DC98269C6B32AEBFDBC02BC279AD31" 
           } 
           // Commands Execute
           steps {
