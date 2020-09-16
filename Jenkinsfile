@@ -12,7 +12,7 @@ pipeline {
           }
           // Commands Execute
           steps {
-                sh 'mv src/.env.example src/.env
+                sh 'cp src/.env.example src/.env'
                 sh 'composer install --working-dir=src'
                 sh 'cat .env'
             }
