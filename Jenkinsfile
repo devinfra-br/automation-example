@@ -29,6 +29,23 @@ pipeline {
                 echo 'Testing..'
             }
         }
+        stage("Publish") {
+            parallel {
+                stage('Pre-Release') {
+                    when { expression { !params.RELEASE } }
+                    steps {
+                        echo "Teste"
+                    }
+                }
+                stage("Release") {
+                    when { expression { params.RELEASE } }
+                    steps {
+                        echo "Teste2"
+                    }
+                }
+            }
+        }
+
                stage("Deploy") {
             steps {
                 script {
