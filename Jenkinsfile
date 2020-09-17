@@ -60,7 +60,7 @@ pipeline {
                 }
             }
         }
-
+            } 
     }
 }
         stage('Ambiente de Deploy') {
