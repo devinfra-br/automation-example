@@ -1,44 +1,63 @@
 pipeline {
     agent none
+
     stages {
-        stage('Application Testes') {
-         // Image Docker   
-          agent { 
-            docker {
-              label 'master'  // both label and image
-              image 'wilton/php74-ci:v1'
-              args '-u root:root'
-            }  
-          }
-          // Commands Execute
-          steps {
-                echo 'Rename Env file'
-                sh 'cp src/.env.example src/.env'
-                echo 'Composer'
-                sh 'composer install --working-dir=src'
-                echo 'PHPUnit'
-                sh 'src/vendor/bin/phpunit src/tests/'
-            }
+      stage('Application Testes') {
+       // Image Docker   
+        agent { 
+          docker {
+            label 'master'  // both label and image
+            image 'wilton/php74-ci:v1'
+            args '-u root:root'
+          }  
         }
-          stage('Wait for user to input text?') {
+        // Commands Execute
+        steps {
+          echo 'Rename Env file'
+          sh 'cp src/.env.example src/.env'
+          echo 'Composer'
+          sh 'composer install --working-dir=src'
+          echo 'PHPUnit'
+          sh 'src/vendor/bin/phpunit src/tests/'
+        }
+      }
+      // New Stage
+      stage('Ambiente Deploy') {
     steps {
             script {
             // Define Variable
              def USER_INPUT = input(
-                    message: 'User input required - Some Yes or No question?',
+                    message: 'Escolha o ambiente para realizar o deploy',
                     parameters: [
                             [$class: 'ChoiceParameterDefinition',
-                             choices: ['no','yes'].join('\n'),
+                             choices: ['TEST', 'QA','PROD'].join('\n'),
                              name: 'input',
-                             description: 'Menu - select box option']
+                             description: 'Ambiente de test']
                     ])
 
-            echo "The answer is: ${USER_INPUT}"
+            echo "Você escolheu o deploy: ${USER_INPUT}"
 
-            if( "${USER_INPUT}" == "yes"){
-                //do something
+            if( "${USER_INPUT}" == "TEST"){
+              parallel {
+                stage('Deploy QA') {
+                    when {
+                      expression { ENV == "TEST" }
+                    }
+                    steps {
+                        echo 'Deploy Ambiente Test'
+                    }
+                 } 
+                }
             } else {
-                //do something else
+                            parallel {
+                stage('parallel stage 1') {
+                    when {
+                      expression { ENV == "something" }
+                    }
+                    steps {
+                        echo 'something'
+                    }
+                }
             }
         }
 
