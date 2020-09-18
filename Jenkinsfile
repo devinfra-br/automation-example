@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         registry = "wilton/app-demo"
-        registryCredential = 'DockerHub'
+        registryCredential = 'docker-hub-auth'
         dockerImage = ''
     }
     stages {
@@ -101,7 +101,7 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                        docker.withRegistry([ credentialsId: registryCredential]) {
+                        withRegistry([ credentialsId: registryCredential]) {
                         def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
                             customImage.push()
                             customImage.push('latest')
