@@ -129,9 +129,6 @@ pipeline {
             // Start parallel jos but contition true
             parallel {
                 stage('Production') {
-                           when {
-                            branch 'master'
-                        }
                     steps {
                         echo 'Deploy Env Prod Ansible Tasks'
                         sh 'sh iac/bash-scripts/ansible-execute.sh'
