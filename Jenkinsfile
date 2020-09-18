@@ -99,14 +99,6 @@ pipeline {
         }
         // New Stage Push Image Docker Repository
         stage('Push Image') {
-            agent { 
-                docker {
-                    image 'wilton/app-demo'
-                    registryUrl 'https://registry.hub.docker.com'
-                    registryCredentialsId 'docker-hub-auth'
-                    args '-v /var/jenkins_home/.m2:/root/.m2'
-                }
-            }
             steps {
                 script {
                     withRegistry([ credentialsId: 'docker-hub-auth', url: "https://registry.hub.docker.com" ]) { 
