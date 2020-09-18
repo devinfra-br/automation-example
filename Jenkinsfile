@@ -101,9 +101,9 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                    def DOCKER_REGISTRY_URI="https://registry.hub.docker.com/"
+                   
                         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: registryCredential , usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-	                    sh "docker login --password=${PASSWORD} --username=${USERNAME} ${DOCKER_REGISTRY_URI}"
+	                    sh "docker login --password=${PASSWORD} --username=${USERNAME}"
                         def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
                             customImage.push()
                             customImage.push('latest')
