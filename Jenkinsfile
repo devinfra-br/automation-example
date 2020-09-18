@@ -103,7 +103,8 @@ pipeline {
                 ansiblePlaybook( 
                     playbook: 'iac/ansible/tasks/docker-compose-model.yml',
                     inventory: 'iac/ansible/hosts.yml',
-
+                    credentialsId: 'ssh-server',
+                    disableHostKeyChecking: true,
                 )
                 //script {
                 //       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: registryCredential , usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
