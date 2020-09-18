@@ -135,7 +135,7 @@ pipeline {
                         }
                     }
                     steps {
-                        echo 'Deploy Env Prod'
+                        echo 'Deploy Env Prod Ansible Tasks'
                         ansiblePlaybook( 
                             playbook: 'iac/ansible/tasks/docker-compose-model.yml',
                             inventory: 'iac/ansible/hosts.yml',
