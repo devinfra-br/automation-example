@@ -131,6 +131,7 @@ pipeline {
                 stage('Production') {
                     steps {
                         echo 'Deploy Env Prod Ansible Tasks'
+                        sh 'chmod 400 iac/key-fake-test/ubuntu-key'
                         sh 'sh iac/bash-scripts/ansible-execute.sh'
                     }
                 }
