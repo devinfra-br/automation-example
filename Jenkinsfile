@@ -77,9 +77,9 @@ pipeline {
         }
 
         // New Stage Push Image Docker Repository
-        stage('Build Image') {
+        stage('Push Image') {
             steps {
-                echo 'Buildar image docker + tag build'
+                echo 'Enviar imagem docker + tag build'
             }
         }
 
@@ -90,7 +90,7 @@ pipeline {
             }
         }
         // New Stage Push Image Docker Repository
-        stage("Push Image") {
+        stage("Deploy") {
             // Start parallel jos but contition true
             parallel {
                 stage('Prod Deploy') {
