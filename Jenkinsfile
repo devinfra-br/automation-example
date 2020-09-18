@@ -101,7 +101,7 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                        withRegistry([ credentialsId: registryCredential]) {
+                        docker.withRegistry(registryCredential) {
                         def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
                             customImage.push()
                             customImage.push('latest')
