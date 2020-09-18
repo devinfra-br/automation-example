@@ -141,6 +141,7 @@ pipeline {
                             credentialsId: 'ssh-server',
                             disableHostKeyChecking: true,
                         )
+                        }
                     }
                 }
                 stage('Developer') {
