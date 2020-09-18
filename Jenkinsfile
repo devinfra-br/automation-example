@@ -109,7 +109,7 @@ pipeline {
             }
             steps {
                 script {
-                    withDockerRegistry([ credentialsId: 'docker-hub-auth', url: "https://registry.hub.docker.com" ]) { 
+                    withRegistry([ credentialsId: 'docker-hub-auth', url: "https://registry.hub.docker.com" ]) { 
                         def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
                             customImage.push()
                             customImage.push('latest')
