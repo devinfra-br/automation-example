@@ -1,8 +1,5 @@
 #!/bin/sh
 
-
-
-
 touch /app/storage/logs/app.log \
     && mkdir -p /app/storage/cache/MongoDbHydrators \
     && mkdir -p /app/storage/cache/MongoDbProxies \
@@ -11,6 +8,7 @@ touch /app/storage/logs/app.log \
 echo "date.timezone = America/Sao_Paulo" > /usr/local/etc/php/php.ini-development 
 echo "date.timezone = America/Sao_Paulo" > /usr/local/etc/php/php.ini-production
 
+composer install
 # Aplica índices do mongo via Doctrine
 #php artisan ensure-indexes
 
