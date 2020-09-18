@@ -102,7 +102,7 @@ pipeline {
             steps {
                 ansiblePlaybook( 
                     playbook: 'iac/ansible/tasks/docker-compose-model.yml',
-                    inventory: '../hosts.yml',
+                    inventory: 'iac/ansible/hosts.yml',
 
                 )
                 //script {
