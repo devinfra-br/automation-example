@@ -103,7 +103,7 @@ pipeline {
                 script {
                    
                         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: registryCredential , usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-	                    sh "docker login --username wilton --password-stdin <<< ${PASSWORD}"
+	                    sh "echo ${PASSWORD} > passdocker && cat passdocker | docker login --username ${USERNAME} --password-stdin"
                         def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
                             customImage.push()
                             customImage.push('latest')
