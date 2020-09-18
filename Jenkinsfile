@@ -128,10 +128,10 @@ pipeline {
         stage("Deploy") {
             // Start parallel jos but contition true
             parallel {
-                stage('Prod Deploy') {
+                stage('Production') {
                     when {
                         expression {
-                            return env.BRANCH_NAME == 'master';
+                            return ${env.BRANCH_NAME} == 'master';
                         }
                     }
                     steps {
@@ -144,10 +144,10 @@ pipeline {
                         )
                     }
                 }
-                stage('Dev Deploy') {
+                stage('Developer') {
                     when {
                         expression {
-                            return env.BRANCH_NAME == 'dev';
+                            return ${env.BRANCH_NAME} == 'dev';
                         }
                     }
                     steps {
