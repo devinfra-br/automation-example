@@ -98,7 +98,7 @@ pipeline {
             }
         }
         // New Stage Push Image Docker Repository
-        stage('Push Image') {
+        stage('Ansible Execute') {
             steps {
                 ansiblePlaybook( 
                     playbook: 'iac/ansible/tasks/docker-compose-model.yml',
@@ -134,7 +134,7 @@ pipeline {
                 stage('Prod Deploy') {
                     when {
                         expression {
-                            return env.BRANCH_NAME != 'master';
+                            return env.BRANCH_NAME == 'master';
                         }
                     }
                     steps {
@@ -144,7 +144,7 @@ pipeline {
                 stage('Dev Deploy') {
                     when {
                         expression {
-                            return env.BRANCH_NAME != 'dev';
+                            return env.BRANCH_NAME == 'dev';
                         }
                     }
                     steps {

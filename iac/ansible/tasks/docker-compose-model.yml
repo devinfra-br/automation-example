@@ -1,6 +1,6 @@
 - name: Docker Composer Task
   remote_user: root
-  sudo: yes
+  become_user: root
   hosts: all
   tasks:
     
