@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        registry = "https://hub.docker.com/r/app-demo"
+        registry = "https://hub.docker.com/r/wilton/app-demo"
         registryCredential = 'DockerHub'
     }
     stages {
