@@ -133,23 +133,19 @@ pipeline {
                             branch 'master'
                         }
                     steps {
-              
                         echo 'Deploy Env Prod Ansible Tasks'
-                        
                         ansiblePlaybook( 
                             playbook: 'iac/ansible/tasks/docker-compose-model.yml',
                             inventory: 'iac/ansible/hosts.yml',
                             credentialsId: 'ssh-server',
                             disableHostKeyChecking: true,
-                            
                         )
-                        
                     }
                 }
                 stage('Developer') {
                     when {
-                            branch 'developer'
-                        }
+                        branch 'developer'
+                    }
                     steps {
                         echo 'Deploy Env Dev'
                     }
