@@ -130,11 +130,10 @@ pipeline {
             parallel {
                 stage('Production') {
                     when {
-                        expression {
-                            return env.BRANCH_NAME == 'master';
-                        }
+                         branch "master"
                     }
                     steps {
+                        sshagent (credentials: ['ssh-server']) {
                         echo 'Deploy Env Prod Ansible Tasks'
                         ansiblePlaybook( 
                             playbook: 'iac/ansible/tasks/docker-compose-model.yml',
@@ -146,9 +145,7 @@ pipeline {
                 }
                 stage('Developer') {
                     when {
-                        expression {
-                            return env.BRANCH_NAME == 'dev';
-                        }
+                        branch "dev"
                     }
                     steps {
                         echo 'Deploy Env Dev'
