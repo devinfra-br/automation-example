@@ -1,0 +1,3 @@
+iac/packer/packer_cache/*
+iac/terraform/plgins
+iac/terraform/.terraform
