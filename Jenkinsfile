@@ -99,7 +99,11 @@ pipeline {
         // New Stage Push Image Docker Repository
         stage('Push Image') {
             steps {
-                echo 'Enviar imagem docker + tag build'
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
             }
         }
 
