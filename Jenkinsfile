@@ -93,7 +93,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    def customImage = docker.build("app-demo:${env.BUILD_ID}")
+                    def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
                 }
             }
         }
@@ -101,9 +101,11 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                    def customImage = docker.build("app-demo:${env.BUILD_ID}")
-                        customImage.push()
-                        customImage.push('latest')
+                        docker.withRegistry(registryCredential) {
+                        def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
+                            customImage.push()
+                            customImage.push('latest')
+                        }
                     }
                 }
             }
