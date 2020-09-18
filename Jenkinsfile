@@ -101,6 +101,7 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
+                      docker.withRegistry( '', registryCredential )
                         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: registryCredential , usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 	                    //sh  "echo $PASSWORD | docker login --username $USERNAME --password"
                         //sh "echo $PASSWORD > docker.txt"
