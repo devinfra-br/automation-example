@@ -129,9 +129,7 @@ pipeline {
             // Start parallel jos but contition true
             parallel {
                 stage('Production') {
-                    when {
-                         branch "master"
-                    }
+                 
                     steps {
                         
                         echo 'Deploy Env Prod Ansible Tasks'
@@ -147,9 +145,7 @@ pipeline {
                     }
                 }
                 stage('Developer') {
-                    when {
-                        branch "dev"
-                    }
+              
                     steps {
                         echo 'Deploy Env Dev'
                     }
