@@ -1,10 +1,10 @@
 - name: Docker Composer Task
-  gather_facts: true
   remote_user: root
+  sudo: yes
   hosts: all
   tasks:
     
-    - include_vars: vars.yml
+    - include_vars: ../vars.yml
 
     - name: Remove Directory
       file:

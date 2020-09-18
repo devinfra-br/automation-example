@@ -100,19 +100,24 @@ pipeline {
         // New Stage Push Image Docker Repository
         stage('Push Image') {
             steps {
-                script {
-                       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: registryCredential , usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                ansiblePlaybook( 
+                    playbook: 'iac/ansible/tasks/docker-compose-model.yml',
+                    inventory: '../hosts.yml',
+
+                )
+                //script {
+                //       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: registryCredential , usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 	                    //sh  "echo $PASSWORD | docker login --username $USERNAME --password"
                         //sh "echo $PASSWORD > docker.txt"
-                        sh "echo $USERNAME $PASSWORD"
-                        sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
+                //        sh "echo $USERNAME $PASSWORD"
+                //        sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
                         //sh "docker login --username $USERNAME --password $PASSWORD"
-                        def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
-                            customImage.push()
-                            customImage.push('latest')
-                        } 
+                //        def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
+                //            customImage.push()
+                //            customImage.push('latest')
+                //        } 
                         
-                    }
+                 //   }
                 }
             }
 

@@ -28,4 +28,3 @@ boot_command = [
 build {
   sources = ["sources.virtualbox-iso.iac_automation"]
 }
-
