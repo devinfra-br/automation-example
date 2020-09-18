@@ -1,66 +1,128 @@
 pipeline {
     agent none
-
+    parameters {
+        booleanParam(name: "RELEASE", defaultValue: false)
+        choice(name: "DEPLOY_TO", choices: ["", "INT", "PRE", "PROD"])
+    }
     stages {
-      stage('Application Testes') {
-       // Image Docker   
-        agent { 
-          docker {
-            label 'master'  // both label and image
-            image 'wilton/php74-ci:v1'
-            args '-u root:root'
-          }  
-        }
+        stage('Application Testes') {
+        // Image Docker   
+            agent { 
+                docker {
+                    label 'master'  // both label and image
+                    image 'wilton/php74-ci:v1'
+                    args '-u root:root'
+                }  
+            }
         // Commands Execute
-        steps {
-          echo 'Rename Env file'
-          sh 'cp src/.env.example src/.env'
-          echo 'Composer'
-          sh 'composer install --working-dir=src'
-          echo 'PHPUnit'
-          sh 'src/vendor/bin/phpunit src/tests/'
-        }
-      }
-      // New Stage
-
-      // New Stage
-        stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'Rename Env file'
+                sh 'cp src/.env.example src/.env'
+                echo 'Composer'
+                sh 'composer install --working-dir=src'
+                echo 'PHPUnit'
+                sh 'src/vendor/bin/phpunit src/tests/'
             }
         }
-        stage("Publish") {
+        
+        // New Stage Stack Tests
+        stage("Test Stack") {
             parallel {
-                stage('Pre-Release') {
+                stage('Unit') {
                     when { expression { !params.RELEASE } }
                     steps {
-                        echo "Teste"
+                        echo "Teste Unitário Aqui"
                     }
                 }
-                stage("Release") {
+                stage("Integration") {
                     when { expression { params.RELEASE } }
                     steps {
-                        echo "Teste2"
+                        echo "Testes de Integração Aqui"
+                    }
+                }
+                stage("System") {
+                    when { expression { params.RELEASE } }
+                    steps {
+                        echo "Testes do Sistema Aqui"
+                    }
+                }
+                stage("Acceptance") {
+                    when { expression { params.RELEASE } }
+                    steps {
+                        echo "Testes de Aceitação Aqui"
+                    }
+                }
+                stage("Security") {
+                    when { expression { params.RELEASE } }
+                    steps {
+                        echo "Testes de Segurança Aqui"
+                    }
+                }
+                stage("Performance") {
+                    when { expression { params.RELEASE } }
+                    steps {
+                        echo "Testes de Perfomance Aqui"
+                    }
+                }  
+                stage("Regression") {
+                    when { expression { params.RELEASE } }
+                    steps {
+                        echo "Testes de Regressão Aqui"
+                    }
+                }                                              
+            }
+        }
+      
+        // New Stage Build Docker Image
+        stage('Build Image') {
+            steps {
+                echo 'Buildar image docker + tag build'
+            }
+        }
+
+        // New Stage Push Image Docker Repository
+        stage('Build Image') {
+            steps {
+                echo 'Buildar image docker + tag build'
+            }
+        }
+
+        // New Stage Generate Tag repository
+        stage('Git Tag App') {
+            steps {
+                echo 'Gerar tag do repositório git'
+            }
+        }
+        // New Stage Push Image Docker Repository
+        stage("Push Image") {
+            // Start parallel jos but contition true
+            parallel {
+                stage('Prod Deploy') {
+                    when {
+                        expression {
+                            return env.BRANCH_NAME != 'master';
+                        }
+                    }
+                    steps {
+                        echo 'Deploy Env Prod'
+                    }
+                }
+                stage('Dev Deploy') {
+                    when {
+                        expression {
+                            return env.BRANCH_NAME != 'dev';
+                        }
+                    }
+                    steps {
+                        echo 'Deploy Env Dev'
                     }
                 }
             }
         }
 
-               stage("Deploy") {
-            steps {
-                script {
-                    switch(params.DEPLOY_TO) {
-                        case "INT": echo "./deploy.sh int"; break
-                        case "PRE": echo "./deploy.sh pre"; break
-                        case "PROD": echo "./deploy.sh prod"; break
-                    }
-                }
-            }
-        }
-    }
     post { 
       always { 
-        echo 'Testes Post Pipeline'
+        echo 'Pipeline Best'
       }
     }
 }
