@@ -113,7 +113,7 @@ pipeline {
                         def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
                             customImage.push()
                             customImage.push('latest')
-                     
+                    } 
                     }
                 }
             }
