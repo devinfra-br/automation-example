@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        registry = "https://hub.docker.com/r/app-demo"
+        registryCredential = 'DockerHub'
+    }
     stages {
         stage('Compile App') {
         // Image Docker   
@@ -87,8 +91,9 @@ pipeline {
         // New Stage Build Docker Image
         stage('Build Image') {
             steps {
-                echo 'Buildar image docker + tag build'
-                sh 'docker build -t wilton/app-name:$BUILD_ID'
+                script {
+                    docker.build registry + ":$BUILD_NUMBER"
+                }
             }
         }
 
