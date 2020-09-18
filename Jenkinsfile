@@ -101,12 +101,12 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                    docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
+                    def customImage = docker.build("app-demo:${env.BUILD_ID}")
+                        customImage.push()
+                        customImage.push('latest')
                     }
                 }
             }
-        }
 
         // New Stage Generate Tag repository
         stage('Git Tag App') {
