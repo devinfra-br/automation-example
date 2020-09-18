@@ -101,9 +101,9 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                   
-                        withDockerRegistry([[$class: 'UsernamePasswordMultiBinding', credentialsId: registryCredential , url: 'docker.io/wilton']]) {
-	                    //sh "echo ${PASSWORD} > passdocker.txt && cat passdocker.txt | docker login --username ${USERNAME} --password-stdin"
+                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: registryCredential , usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+	                    sh  "echo ${PASSWORD} > docker.txt"
+                        sh "cat docker.txt | docker login --username ${USERNAME} --password-stdin"
                         def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
                             customImage.push()
                             customImage.push('latest')
