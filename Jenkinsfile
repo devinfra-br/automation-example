@@ -131,7 +131,9 @@ pipeline {
                 stage('Production') {
                  
                     steps {
-                        
+                        when {
+                            expression { branch =~  /(master|prod)/ }
+                        }
                         echo 'Deploy Env Prod Ansible Tasks'
                         
                         ansiblePlaybook( 
@@ -145,7 +147,9 @@ pipeline {
                     }
                 }
                 stage('Developer') {
-              
+                    when {
+                            expression { branch =~  /(developer|staged)/ }
+                        }
                     steps {
                         echo 'Deploy Env Dev'
                     }
