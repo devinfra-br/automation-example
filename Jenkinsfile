@@ -133,13 +133,15 @@ pipeline {
                          branch "master"
                     }
                     steps {
-                        sshagent (credentials: ['ssh-server']) {
+                        
                         echo 'Deploy Env Prod Ansible Tasks'
+                        wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                         ansiblePlaybook( 
                             playbook: 'iac/ansible/tasks/docker-compose-model.yml',
                             inventory: 'iac/ansible/hosts.yml',
                             credentialsId: 'ssh-server',
                             disableHostKeyChecking: true,
+                            colorized: true,
                         )
                         }
                     }
