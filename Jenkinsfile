@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         registry = "wilton/app-demo"
-        registryCredential = 'docker-hub-auth'
+        registryCredential = "docker-hub-auth"
         dockerImage = ''
     }
     stages {
@@ -101,11 +101,13 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                    withRegistry([ credentialsId: 'docker-hub-auth', url: "https://registry.hub.docker.com" ]) { 
+                    def DOCKER_REGISTRY_URI="..."
+                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: registryCredential , usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+	                    sh "docker login --password=${PASSWORD} --username=${USERNAME} ${DOCKER_REGISTRY_URI}"
                         def customImage = docker.build("wilton/app-demo:${env.BUILD_ID}")
                             customImage.push()
                             customImage.push('latest')
-                    } 
+                        } 
                     }
                 }
             }
