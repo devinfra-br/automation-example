@@ -24,6 +24,13 @@ pipeline {
         stage("Test Stack") {
             parallel {
                 stage('Unit') {
+                        agent { 
+                        docker {
+                            label 'master'  // both label and image
+                            image 'wilton/php74-ci:v1'
+                            args '-u root:root'
+                        }  
+                    }
                     steps {
                         echo "Teste Unitário Aqui - PHPUnit"
                         sh 'src/vendor/bin/phpunit src/tests/'
