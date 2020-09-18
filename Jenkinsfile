@@ -98,15 +98,10 @@ pipeline {
             }
         }
         // New Stage Push Image Docker Repository
-        stage('Ansible Execute') {
+        stage('Build Image') {
             steps {
-                sh 'chmod 400 iac/key-fake-test/ubuntu-key'
-                ansiblePlaybook( 
-                    playbook: 'iac/ansible/tasks/docker-compose-model.yml',
-                    inventory: 'iac/ansible/hosts.yml',
-                    credentialsId: 'ssh-server',
-                    disableHostKeyChecking: true,
-                )
+                echo 'Docker Push Image'
+              
                 //script {
                 //       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: registryCredential , usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 	                    //sh  "echo $PASSWORD | docker login --username $USERNAME --password"
@@ -141,6 +136,12 @@ pipeline {
                     }
                     steps {
                         echo 'Deploy Env Prod'
+                        ansiblePlaybook( 
+                            playbook: 'iac/ansible/tasks/docker-compose-model.yml',
+                            inventory: 'iac/ansible/hosts.yml',
+                            credentialsId: 'ssh-server',
+                            disableHostKeyChecking: true,
+                        )
                     }
                 }
                 stage('Dev Deploy') {
