@@ -25,43 +25,51 @@ pipeline {
         stage("Test Stack") {
             parallel {
                 stage('Unit') {
-                    when { expression { !params.RELEASE } }
                     steps {
                         echo "Teste Unitário Aqui"
                     }
                 }
                 stage("Integration") {
-                    when { expression { params.RELEASE } }
+                    when {
+                        expression {
+                            return env.BRANCH_NAME != 'master';
+                        }
+                    }
                     steps {
                         echo "Testes de Integração Aqui"
                     }
                 }
                 stage("System") {
-                    when { expression { params.RELEASE } }
                     steps {
                         echo "Testes do Sistema Aqui"
                     }
                 }
                 stage("Acceptance") {
-                    when { expression { params.RELEASE } }
+                    when {
+                        expression {
+                            return env.BRANCH_NAME != 'master';
+                        }
+                    }
                     steps {
                         echo "Testes de Aceitação Aqui"
                     }
                 }
                 stage("Security") {
-                    when { expression { params.RELEASE } }
                     steps {
                         echo "Testes de Segurança Aqui"
                     }
                 }
                 stage("Performance") {
-                    when { expression { params.RELEASE } }
                     steps {
                         echo "Testes de Perfomance Aqui"
                     }
                 }  
                 stage("Regression") {
-                    when { expression { params.RELEASE } }
+                    when {
+                        expression {
+                            return env.BRANCH_NAME != 'master';
+                        }
+                    }
                     steps {
                         echo "Testes de Regressão Aqui"
                     }
