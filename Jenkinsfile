@@ -1,8 +1,9 @@
 pipeline {
     agent any
     environment {
-        registry = "https://hub.docker.com/r/wilton/app-demo"
+        registry = "wilton/app-demo"
         registryCredential = 'DockerHub'
+        dockerImage = ''
     }
     stages {
         stage('Compile App') {
