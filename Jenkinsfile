@@ -98,7 +98,7 @@ pipeline {
             }
         }
         // New Stage Push Image Docker Repository
-        stage('Build Image') {
+        stage('Push Image') {
             steps {
                 echo 'Docker Push Image'
               
