@@ -134,12 +134,7 @@ pipeline {
                         }
                     steps {
                         echo 'Deploy Env Prod Ansible Tasks'
-                        ansiblePlaybook( 
-                            playbook: 'iac/ansible/tasks/docker-compose-model.yml',
-                            inventory: 'iac/ansible/hosts.yml',
-                            credentialsId: 'ssh-server',
-                            disableHostKeyChecking: true,
-                        )
+                        sh 'sh iac/bash-scripts/ansible-execute.sh'
                     }
                 }
                 stage('Developer') {
