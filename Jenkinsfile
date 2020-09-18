@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    def app
     environment {
         registry = "https://hub.docker.com/r/wilton/app-demo"
         registryCredential = 'DockerHub'
@@ -26,6 +27,7 @@ pipeline {
         
         // New Stage Stack Tests
         stage("Test Stack") {
+            checkout scm
             parallel {
                 stage('Unit') {
                         agent { 
@@ -92,11 +94,11 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    docker.build registry + ":$BUILD_NUMBER"
+                    def customImage = docker.build("app-demo:${env.BUILD_ID}")
+                    customImage.push()
                 }
             }
         }
-
         // New Stage Push Image Docker Repository
         stage('Push Image') {
             steps {
