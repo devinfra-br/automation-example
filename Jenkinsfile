@@ -1,7 +1,7 @@
 pipeline {
     agent none
     stages {
-        stage('Application Testes') {
+        stage('Compile App') {
         // Image Docker   
             agent { 
                 docker {
@@ -16,8 +16,7 @@ pipeline {
                 sh 'cp src/.env.example src/.env'
                 echo 'Composer'
                 sh 'composer install --working-dir=src'
-                echo 'PHPUnit'
-                sh 'src/vendor/bin/phpunit src/tests/'
+
             }
         }
         
@@ -26,7 +25,8 @@ pipeline {
             parallel {
                 stage('Unit') {
                     steps {
-                        echo "Teste Unitário Aqui"
+                        echo "Teste Unitário Aqui - PHPUnit"
+                        sh 'src/vendor/bin/phpunit src/tests/'
                     }
                 }
                 stage("Integration") {
