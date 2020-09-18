@@ -1,9 +1,5 @@
 pipeline {
     agent none
-    parameters {
-        booleanParam(name: "RELEASE", defaultValue: false)
-        choice(name: "DEPLOY_TO", choices: ["", "INT", "PRE", "PROD"])
-    }
     stages {
         stage('Application Testes') {
         // Image Docker   
@@ -119,10 +115,5 @@ pipeline {
                 }
             }
         }
-
-    post { 
-      always { 
-        echo 'Pipeline Best'
-      }
     }
 }
