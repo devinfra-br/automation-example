@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    def app
     environment {
         registry = "https://hub.docker.com/r/wilton/app-demo"
         registryCredential = 'DockerHub'
@@ -27,7 +26,6 @@ pipeline {
         
         // New Stage Stack Tests
         stage("Test Stack") {
-            checkout scm
             parallel {
                 stage('Unit') {
                         agent { 
