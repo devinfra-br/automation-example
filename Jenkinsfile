@@ -100,7 +100,7 @@ pipeline {
         // New Stage Push Image Docker Repository
         stage('Ansible Execute') {
             steps {
-                sh 'chmod 400 id_rsa iac/key-fake-test/ubuntu-key'
+                sh 'chmod 400 iac/key-fake-test/ubuntu-key'
                 ansiblePlaybook( 
                     playbook: 'iac/ansible/tasks/docker-compose-model.yml',
                     inventory: 'iac/ansible/hosts.yml',
