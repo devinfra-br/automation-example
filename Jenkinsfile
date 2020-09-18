@@ -131,7 +131,7 @@ pipeline {
                 stage('Production') {
                     when {
                         expression {
-                            return ${env.BRANCH_NAME} == 'master';
+                            return env.BRANCH_NAME == 'master';
                         }
                     }
                     steps {
@@ -147,7 +147,7 @@ pipeline {
                 stage('Developer') {
                     when {
                         expression {
-                            return ${env.BRANCH_NAME} == 'dev';
+                            return env.BRANCH_NAME == 'dev';
                         }
                     }
                     steps {
