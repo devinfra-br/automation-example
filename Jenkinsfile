@@ -93,7 +93,6 @@ pipeline {
             steps {
                 script {
                     def customImage = docker.build("app-demo:${env.BUILD_ID}")
-                    customImage.push()
                 }
             }
         }
