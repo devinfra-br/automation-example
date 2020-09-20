@@ -16,5 +16,5 @@
 
     - name: Start Project ENV_PROJECT docker-compose.yml
       docker_compose:
-        project_src: "{{src_app}}"
+        project_src: "{{dst_app}}"
 

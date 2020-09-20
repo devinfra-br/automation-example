@@ -1,0 +1,12 @@
+name: World
+project: IAC_Curse
+remote_user: ubuntu
+docker_group: docker
+botocore_version: "1.17.52"
+awscli_version: "1.18.129"
+hosts_01: "192.168.10.105"
+hosts_02: "192.168.10.103"
+
+# App Configs
+app_name: demo
+

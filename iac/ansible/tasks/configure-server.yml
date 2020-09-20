@@ -1,31 +1,52 @@
 - name: Playbook Configurar Docker no Ubuntu Server
   gather_facts: true
   remote_user: root
+  become_user: root
   hosts: all
 
   tasks:
-    - include_vars: vars.yml
-      
+    - include_vars: ../vars/servers.yml
+
     - name: Update Packages
       become: true
       apt:
         update_cache: yes
-        upgrade: 'yes'
+        upgrade: "yes"
 
     - name: Install Git
       apt:
         name: git
-        state: present      
+        state: present
 
     - name: Install Required System Packages
       apt: name={{ item }} state=latest update_cache=yes
-      loop: [ 'apt-transport-https', 'libuv1-dev', 'zlib1g-dev', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools', 'gcc', 'make', 'autoconf', 'autoconf-archive', 'autogen', 'automake', 'netcat', 'nodejs', 'libuv1-dev', 'zlib1g-dev']
+      loop:
+        [
+          "apt-transport-https",
+          "libuv1-dev",
+          "zlib1g-dev",
+          "ca-certificates",
+          "curl",
+          "software-properties-common",
+          "python3-pip",
+          "virtualenv",
+          "python3-setuptools",
+          "gcc",
+          "make",
+          "autoconf",
+          "autoconf-archive",
+          "autogen",
+          "automake",
+          "netcat",
+          "nodejs",
+          "libuv1-dev",
+          "zlib1g-dev",
+        ]
 
     - name: Installing python dependencies - Botocore Version "{{botocore_version}}"
-      pip:  
+      pip:
         name: "botocore"
         version: "{{botocore_version}}"
-
 
     - name: Installing - AWS CLI version "{{awscli_version}}"
       pip:
@@ -66,7 +87,7 @@
         update_cache: yes
       tags:
         - docker
-        
+
     - name: Create .aws directory in the home directory
       file:
         path: "/root/.aws/"
@@ -75,12 +96,12 @@
         group: "root"
         mode: 0755
 
-    #- service: name=docker state=restarted             
+    #- service: name=docker state=restarted
     - name: Download NetData
       get_url:
-        url: https://my-netdata.io/kickstart.sh 
+        url: https://my-netdata.io/kickstart.sh
         dest: /srv/kickstart.sh
-        mode: '0777'
+        mode: "0777"
 
     - name: Install Netdata
       command: sh /srv/kickstart.sh --dont-wait --libs-are-really-here
@@ -89,4 +110,4 @@
     - name: to restart netdata services
       service:
         name: netdata
-        state: restarted         
+        state: restarted
