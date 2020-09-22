@@ -20,5 +20,6 @@
     - name: Start Project {{project}} docker-compose.yml
       docker_compose:
         project_src: "{{dst_app}}"
+        build: yes
         restarted: yes
 
