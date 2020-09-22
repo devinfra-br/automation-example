@@ -4,7 +4,7 @@
   hosts: all
   tasks:
     
-    - include_vars: iac/ansible/vars/app.yml
+    - include_vars: automation-example/iac/ansible/vars/app.yml
 
     - name: Remove Directory
       file:

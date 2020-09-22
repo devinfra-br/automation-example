@@ -4,6 +4,9 @@
   hosts: all
 
   tasks:
+
+    - include_vars: automation-example/iac/ansible/vars/app.yml
+
     - name: Clone Repo Github
       git:
         repo: "{{git_repo}}"
