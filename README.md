@@ -13,7 +13,7 @@ ssh-keygen
   Copie a chave publica para os servidores alvo e guarde a 7 chaves o arquivo da chave publica.
   
 
-# install Jenkins Server
+# Install Tools
 ```ssh
 $ apt update
 $ apt install -y git openjdk-8-jdk build-essential apt-transport-https ca-certificates curl software-properties-common jq
