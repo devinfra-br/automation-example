@@ -17,7 +17,8 @@
       docker_network:
         name: "{{docker_network}}"
 
-    - name: Start Project ENV_PROJECT docker-compose.yml
+    - name: Start Project {{project}} docker-compose.yml
       docker_compose:
         project_src: "{{dst_app}}"
+        restarted: yes
 
