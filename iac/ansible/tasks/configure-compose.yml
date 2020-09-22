@@ -5,7 +5,7 @@
 
   tasks:
 
-    - include_vars: automation-example/iac/ansible/vars/app.yml
+    - include_vars: vars.yml
 
     - name: Clone Repo Github
       git:
