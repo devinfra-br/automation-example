@@ -1,5 +1,6 @@
 - name: Start Project Docker
   gather_facts: true
+  become: true
   remote_user: root
   hosts: all
   tasks:
